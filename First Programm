@@ -1,0 +1,99 @@
+#include <kipr/botball.h>
+thread tid;
+void czas()
+{
+    msleep(1000);
+    exit(0);
+}
+void reset()
+{
+    int a,h;
+    enable_servos();
+    a=get_servo_position(0);
+    h=get_servo_position(1);
+    if(a<800)
+    {
+       while(a!=800)
+    	{
+        a+=1;
+        set_servo_position(0,a);
+        msleep(3);
+    	} 
+    }
+    if(h>200)
+    {
+        while(h!=200)
+    	{
+        h-=1;
+        set_servo_position(1,h);
+        msleep(3);
+  	    }
+    }
+    disable_servos();
+}
+void ramie()
+{
+    int a=800, h=200;
+    enable_servos();
+    while(h!=1050)
+    {
+        h+=5;
+        set_servo_position(1,h);
+        msleep(5);
+    }
+    while(a!=0)
+      {
+        a-=5;
+        set_servo_position(0,a);
+        msleep(5);
+    }
+    while(h!=200)
+    {
+        h-=5;
+        set_servo_position(1,h);
+        msleep(5);
+    }
+}
+int main()
+{
+    tid = thread_create(czas);
+    thread_start(tid);
+    reset();
+    while(analog8(1)<240)
+    {
+       if(analog8(0)>220)
+        {
+            motor(1, 40);
+            motor(0, 80);
+            msleep(50);
+        }
+        if(analog8(0)<240)
+        {
+            motor(0, 40);
+            motor(1, 80);
+            msleep(50);
+        } 
+    }
+    motor(0, -80);
+	motor(1,-80);
+    msleep(190);
+    motor(0,0);
+    while(analog8(1)<230)
+    {
+    }
+    motor(1,5);
+    while(analog8(1)>220)
+    {}
+    motor(0,5);
+    while(analog8(0)>220)
+    {}
+    motor(0,40);
+    motor(1,40);
+    while(analog(3)<1100)
+    {}
+    ao();
+    ramie();
+    disable_servos();
+    reset();
+    return 0;
+}
