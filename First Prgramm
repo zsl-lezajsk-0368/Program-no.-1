@@ -1,0 +1,85 @@
+#include <kipr/botball.h>
+void reset(int s2, int s3)
+{
+    if(s2<1050)
+     while(s2!=1050)
+    {
+        set_servo_position(2, s2);
+        s2+=5;
+        msleep(10);
+     }
+    if(s3<900)
+     while(s3!=900)
+     {
+        set_servo_position(3, s3);
+        s3+=10;
+        msleep(10);
+     }
+}
+
+int main()
+{
+    //s2 - ramie
+    //s3 - szczeki
+    int s2=1050, s3=900;
+    enable_servos();
+    reset(s2, s3);
+    while(s2!=250)
+    {
+        set_servo_position(2, s2);
+        s2-=5;
+        msleep(10);
+    }
+    while(s3!=0)
+    {
+        set_servo_position(3, s3);
+        s3-=10;
+        msleep(10);
+    }
+    fd(0);
+    fd(1);
+    msleep(500);
+     while(s3!=900)
+    {
+        set_servo_position(3, s3);
+        s3+=10;
+        msleep(10);
+    }
+    while(s3!=0)
+    {
+        set_servo_position(3, s3);
+        s3-=10;
+        msleep(10);
+    }
+    msleep(600);
+    while(s3!=900)
+    {
+        set_servo_position(3, s3);
+        s3+=10;
+        msleep(10);
+    }
+    while(s3!=0)
+    {
+        set_servo_position(3, s3);
+        s3-=10;
+        msleep(10);
+    }
+    ao();
+     while(s3!=900)
+    {
+        set_servo_position(3, s3);
+        s3+=10;
+        msleep(10);
+    }
+    
+     if(s2<1050)
+     while(s2!=1050)
+    {
+        set_servo_position(2, s2);
+        s2+=5;
+        msleep(10);
+     }
+    msleep(1000);
+    reset(s2, s3);
+    disable_servos();
+    return 0;
